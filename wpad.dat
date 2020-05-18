@@ -1,0 +1,7 @@
+function FindProxyForURL(url, host)
+{
+    if (!isPlainHostName(host) && dnsDomainIs(host, "spark-de-master1.newprolab.com"))
+        return "SOCKS5 localhost:1080";
+
+    return "DIRECT"
+}
