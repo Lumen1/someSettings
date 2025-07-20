@@ -9,12 +9,12 @@ chmod +x wireguard-install.sh
 
 ## WG config
 echo "[Interface]
-PrivateKey = wLPhfSXqIKnhsS1iXqUrKzXA+Wz7FzBf1EHdLJFsOmI=
+PrivateKey = QJcBxsxD5Htk+sg2i5R7F+dmagO6RKjRZpIvb1BlIUU=
 
 [Peer]
-PublicKey = 4ccYW4QXM5j4o5GCLDpOin36n7K3wOkVnCek7QUsqB0=
-PresharedKey = Ua5jBp7CtNs0e8WPJ1tssi9OrBYCdC74U6yVe456LJE=
-Endpoint = 77.233.212.9:62554
+PublicKey = yIxnMMLYK8HfxyIUc5sX3KV8G2tpv3cDYjGm2Vt4A1w=
+PresharedKey = Q3K7l78Ovl+VYFevZhV3Y/Y++TfQGBdE5H6gSr1biZM=
+Endpoint = 178.253.22.98:61183
 AllowedIPs = 0.0.0.0/0,::/0" > "/etc/wireguard/wg1.conf"
 
 
