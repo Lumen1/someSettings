@@ -32,6 +32,7 @@ ip link set up dev wg1
 
 #Config forward for 1 client
 ip rule add from 10.148.30.7 lookup 200
+ip rule add from 10.148.30.8 lookup 200
 ip route add default dev wg1 table 200
 iptables -t nat -A POSTROUTING -o wg1 -j MASQUERADE' > "/etc/wireguard/wg1Start.sh"
 
@@ -39,6 +40,7 @@ iptables -t nat -A POSTROUTING -o wg1 -j MASQUERADE' > "/etc/wireguard/wg1Start.
 # WG Stop Script
 echo -e '#!/bin/sh
 ip rule delete from 10.148.30.7 lookup 200
+ip rule delete from 10.148.30.8 lookup 200
 ip route delete default dev wg1 table 200
 iptables -t nat -D POSTROUTING -o wg1 -j MASQUERADE
 ip link set down dev wg1
