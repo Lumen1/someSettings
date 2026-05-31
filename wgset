@@ -33,9 +33,13 @@ ip link set up dev wg1
 #Config forward for 1 client
 ip rule add from 10.148.30.7 lookup 200
 ip rule add from 10.148.30.9 lookup 200
+
 #tg
-iptables -t mangle -A OUTPUT -m owner --uid-owner telemt -j MARK --set-mark 207
-ip rule add fwmark 207 table 200 priority 100
+iptables -t mangle -A OUTPUT -j CONNMARK --restore-mark
+iptables -t mangle -A OUTPUT -m owner --uid-owner telemt -m conntrack --ctstate NEW -j MARK --set-mark 200
+iptables -t mangle -A OUTPUT -j CONNMARK --save-mark
+ip rule add fwmark 200 table 200 priority 100
+
 #route
 ip route add default dev wg1 table 200
 iptables -t nat -A POSTROUTING -o wg1 -j MASQUERADE' > "/etc/wireguard/wg1Start.sh"
@@ -45,9 +49,14 @@ iptables -t nat -A POSTROUTING -o wg1 -j MASQUERADE' > "/etc/wireguard/wg1Start.
 echo -e '#!/bin/sh
 ip rule delete from 10.148.30.7 lookup 200
 ip rule delete from 10.148.30.9 lookup 200
+
 #tg
-while iptables -t mangle -D OUTPUT -m owner --uid-owner telemt -j MARK --set-mark 207 2>/dev/null; do echo "mangleDel"; done
-ip rule del fwmark 207 table 200 priority 100
+while iptables -t mangle -D OUTPUT -j CONNMARK --restore-mark 2>/dev/null; do :; done
+while iptables -t mangle -D OUTPUT -m owner --uid-owner telemt -m conntrack --ctstate NEW -j MARK --set-mark 200 2>/dev/null; do :; done
+while iptables -t mangle -D OUTPUT -j CONNMARK --save-mark 2>/dev/null; do :; done
+
+ip rule del fwmark 200 table 200 priority 100
+
 #route
 ip route delete default dev wg1 table 200
 iptables -t nat -D POSTROUTING -o wg1 -j MASQUERADE
