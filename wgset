@@ -34,6 +34,7 @@ ip link set up dev wg1
 ip rule add from 10.148.30.7 lookup 200
 ip rule add from 10.148.30.9 lookup 200
 ip rule add from 10.148.30.11 lookup 200
+ip rule add from 10.148.30.12 lookup 200
 
 #tg
 iptables -t mangle -A OUTPUT -j CONNMARK --restore-mark
@@ -51,6 +52,7 @@ echo -e '#!/bin/sh
 ip rule delete from 10.148.30.7 lookup 200
 ip rule delete from 10.148.30.9 lookup 200
 ip rule delete from 10.148.30.11 lookup 200
+ip rule delete from 10.148.30.12 lookup 200
 
 #tg
 while iptables -t mangle -D OUTPUT -j CONNMARK --restore-mark 2>/dev/null; do :; done
